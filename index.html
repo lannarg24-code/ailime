@@ -1695,7 +1695,9 @@ if (window.location.search.indexOf('admin') !== -1) {
   // Forzar navegación al admin
   window.addEventListener('DOMContentLoaded', function(){ initRoute(); });
 } else {
-  document.body.style.overflow = 'hidden';
+  var _sp2 = document.getElementById('splashScreen');
+  if (_sp2) { document.body.style.overflow = 'hidden'; }
+  else { document.body.style.overflow = ''; }
 }
 // Partículas
 (function(){
@@ -1736,7 +1738,7 @@ if (window.location.search.indexOf('admin') !== -1) {
 <!-- ══════════════════════════════════
      STORE VIEW
 ══════════════════════════════════ -->
-<div id="storeView" class="view">
+<div id="storeView" class="view active">
 
   <!-- Header -->
   <header class="topbar">
@@ -2485,7 +2487,7 @@ if (window.location.search.indexOf('admin') !== -1) {
 <!-- ══════════════════════════════════
      ADMIN VIEW
 ══════════════════════════════════ -->
-<div id="adminView" class="view active">
+<div id="adminView" class="view">
   <nav class="admin-topbar">
     <div class="admin-brand">ADMIN <span>PANEL</span></div>
     <div style="display:flex;gap:0;">
@@ -3145,7 +3147,7 @@ if (window.location.search.indexOf('admin') !== -1) {
       </div>
       <div class="order-info">
         <strong>dieguito</strong> — 5492964499776<br>
-        ASDASD@GMAIL.COM<br>
+        <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3372607772607773747e727a7f1d707c7e">[email&#160;protected]</a><br>
         JUEGO DE SABANAS TWIN LINEA BOTANIC PERCAL × 1, SACA CALLO CALLUS REMOVER WITH × 1, PROYECTOR ASTRONAUTA CON PARLANTE × 1<br>
         <span style="font-size:11px;color:var(--text-dim)">24/2/2026, 10:35:18</span>
       </div>
@@ -3165,7 +3167,7 @@ if (window.location.search.indexOf('admin') !== -1) {
       </div>
       <div class="order-info">
         <strong>lalero tralalero</strong> — 5492964606099<br>
-        lalero@gmail.vom<br>
+        <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="87ebe6ebe2f5e8c7e0eae6eeeba9f1e8ea">[email&#160;protected]</a><br>
         POSAVELA NEGRO × 1, JUEGO DE SABANAS TWIN LINEA BOTANIC PERCAL × 1, AURICULAR VINCHA × 1<br>
         <span style="font-size:11px;color:var(--text-dim)">24/2/2026, 02:47:38</span>
       </div>
@@ -3277,7 +3279,7 @@ if (window.location.search.indexOf('admin') !== -1) {
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ════════════════════════════════════════
 // STATE
 // ════════════════════════════════════════
@@ -3436,7 +3438,10 @@ function exportarHTML() {
     return;
   }
 
-  const htmlFinal = html.replace(marker, injection + marker);
+  let htmlFinal = html.replace(marker, injection + marker);
+  // Asegurarse que storeView esté activo al abrir (no adminView)
+  htmlFinal = htmlFinal.replace(/(<div id="adminView" class="view) active(")/g, '$1$2');
+  htmlFinal = htmlFinal.replace(/(<div id="storeView" class="view)(")/g, '$1 active$2');
 
   // Descargar
   const blob = new Blob([htmlFinal], { type: 'text/html;charset=utf-8' });
@@ -4733,20 +4738,4 @@ function processJsonFile(file) {
 // ════════════════════════════════════════
 // INIT
 // ════════════════════════════════════════
-if (window.location.search.indexOf('admin') === -1) { initRoute(); }
-renderCart();
-actualizarDolar();
-
-// ── SPLASH ──
-
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    document.getElementById('productModalOverlay').classList.remove('on');
-    document.body.style.overflow = '';
-  }
-});
-</script>
-
-
-</body></html>
+if 
