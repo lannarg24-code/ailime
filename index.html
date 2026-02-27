@@ -2210,10 +2210,6 @@ function saveData() {
     localStorage.setItem('tienda_data_v2', JSON.stringify(embedded));
   } catch(e) {}
 })();
-    if (!Array.isArray(embedded.config.ofertasSemana)) embedded.config.ofertasSemana = [];
-    localStorage.setItem('tienda_data_v2', JSON.stringify(embedded));
-  } catch(e) {}
-})();
 let data = loadData();
 let cart = [];
 let activeFilter = 'todos';
@@ -2315,7 +2311,26 @@ async function exportarHTML() {
   const dataExport = JSON.stringify(data);
 
   // Limpiar cualquier bloque embebido previo (fix doble exportación)
-  const embedStart = '`;
+  const embedStart = '// ── DATOS EMBEBIDOS';
+  const embedEnd   = '})();\n';
+  const startIdx   = html.indexOf(embedStart);
+  if (startIdx !== -1) {
+    const endIdx = html.indexOf(embedEnd, startIdx);
+    if (endIdx !== -1) {
+      html = html.slice(0, startIdx) + html.slice(endIdx + embedEnd.length);
+    }
+  }
+
+  const marker = 'let data = loadData();';
+  const injection = `// ── DATOS EMBEBIDOS (generado por exportarHTML) ──
+(function(){
+  try {
+    var embedded = ${dataExport};
+    if (!Array.isArray(embedded.config.ofertasSemana)) embedded.config.ofertasSemana = [];
+    localStorage.setItem('tienda_data_v2', JSON.stringify(embedded));
+  } catch(e) {}
+})();
+`;
 
   if (!html.includes(marker)) {
     showToast('⚠ Error al generar el archivo');
