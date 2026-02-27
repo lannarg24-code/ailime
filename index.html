@@ -3147,7 +3147,7 @@ if (window.location.search.indexOf('admin') !== -1) {
       </div>
       <div class="order-info">
         <strong>dieguito</strong> — 5492964499776<br>
-        <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3372607772607773747e727a7f1d707c7e">[email&#160;protected]</a><br>
+        <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f4b5a7b0b5a7b0b4b3b9b5bdb8dab7bbb9">[email&#160;protected]</a><br>
         JUEGO DE SABANAS TWIN LINEA BOTANIC PERCAL × 1, SACA CALLO CALLUS REMOVER WITH × 1, PROYECTOR ASTRONAUTA CON PARLANTE × 1<br>
         <span style="font-size:11px;color:var(--text-dim)">24/2/2026, 10:35:18</span>
       </div>
@@ -3167,7 +3167,7 @@ if (window.location.search.indexOf('admin') !== -1) {
       </div>
       <div class="order-info">
         <strong>lalero tralalero</strong> — 5492964606099<br>
-        <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="87ebe6ebe2f5e8c7e0eae6eeeba9f1e8ea">[email&#160;protected]</a><br>
+        <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9ef2fff2fbecf1def9f3fff7f2b0e8f1f3">[email&#160;protected]</a><br>
         POSAVELA NEGRO × 1, JUEGO DE SABANAS TWIN LINEA BOTANIC PERCAL × 1, AURICULAR VINCHA × 1<br>
         <span style="font-size:11px;color:var(--text-dim)">24/2/2026, 02:47:38</span>
       </div>
@@ -3279,7 +3279,7 @@ if (window.location.search.indexOf('admin') !== -1) {
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ════════════════════════════════════════
 // STATE
 // ════════════════════════════════════════
@@ -3439,9 +3439,20 @@ function exportarHTML() {
   }
 
   let htmlFinal = html.replace(marker, injection + marker);
-  // Asegurarse que storeView esté activo al abrir (no adminView)
+  
+  // Eliminar script de Cloudflare que no funciona fuera del hosting original
+  htmlFinal = htmlFinal.replace(/<script data-cfasync="false" src="\/cdn-cgi\/[^"]*"><\/script>/g, '');
+  
+  // Asegurarse que storeView esté activo al abrir (no adminView ni loginView)
   htmlFinal = htmlFinal.replace(/(<div id="adminView" class="view) active(")/g, '$1$2');
-  htmlFinal = htmlFinal.replace(/(<div id="storeView" class="view)(")/g, '$1 active$2');
+  htmlFinal = htmlFinal.replace(/(<div id="loginView" class="view) active(")/g, '$1$2');
+  htmlFinal = htmlFinal.replace(/(<div id="storeView" class="view)(">)/g, '$1 active$2');
+  
+  // Arreglar overflow hidden que queda cuando el splash no existe en el export
+  htmlFinal = htmlFinal.replace(
+    /\} else \{\s*document\.body\.style\.overflow = 'hidden';\s*\}/,
+    `} else {\n  var _sp2 = document.getElementById('splashScreen');\n  if (_sp2) { document.body.style.overflow = 'hidden'; }\n  else { document.body.style.overflow = ''; }\n}`
+  );
 
   // Descargar
   const blob = new Blob([htmlFinal], { type: 'text/html;charset=utf-8' });
