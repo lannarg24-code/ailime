@@ -1620,20 +1620,128 @@ body {
 .pag-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
 .pag-btn:disabled { opacity: 0.35; cursor: default; }
 /* ══════════════════════════════════════
-   RESPONSIVE
+   RESPONSIVE — TABLET (max 900px)
+══════════════════════════════════════ */
+@media (max-width: 900px) {
+  .products-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .ofertas-grid  { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .cat-icons-grid { grid-template-columns: repeat(8, 1fr); }
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE — MOBILE (max 640px)
 ══════════════════════════════════════ */
 @media (max-width: 640px) {
-  .topbar { padding: 0 12px; }
-  .brand { font-size: 20px; }
-  .search-bar { margin: 0 10px; }
-  .hero-banner { padding: 16px; }
-  .hero-badge { width: 70px; height: 70px; }
-  .hero-badge .badge-num { font-size: 20px; }
+
+  /* ── Topbar ── */
+  .topbar {
+    padding: 0 10px;
+    height: 52px;
+    gap: 8px;
+  }
+  .brand { font-size: 17px; }
+  .search-bar {
+    flex: 1;
+    margin: 0 6px;
+    max-width: unset;
+  }
+  .search-bar input {
+    height: 32px;
+    font-size: 13px;
+    padding: 0 36px 0 12px;
+  }
+  .search-bar button {
+    width: 24px; height: 24px;
+    font-size: 11px;
+  }
+  .header-actions { gap: 4px; }
+  .cart-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+    gap: 4px;
+  }
+  .cart-btn span:last-child { display: none; } /* ocultar texto "Carrito" */
+  .dolar-badge { display: none; } /* ocultar badge dólar en mobile */
+
+  /* ── Hero ── */
+  .hero-banner { padding: 14px 12px; gap: 10px; }
+  .hero-title { font-size: 22px; }
+  .hero-sub { font-size: 12px; }
+  .hero-badge { width: 64px; height: 64px; }
+  .hero-badge .badge-icon { font-size: 22px; }
+  .hero-badge .badge-txt { font-size: 8px; }
+  .hero-benefits { gap: 8px; }
+  .hero-ben-item { font-size: 11px; gap: 4px; }
+
+  /* ── Categorías ── */
+  .cat-icons-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px 4px;
+    overflow-x: auto;
+    grid-template-rows: auto auto;
+  }
+  .cat-icon-ring { width: 52px; height: 52px; }
+  .cat-icon-label { font-size: 9px; max-width: 58px; }
+
+  /* ── Productos grid ── */
   .store-content { padding: 10px 8px; }
-  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .product-card { border-radius: 8px; }
+  .card-name { font-size: 12px; }
+  .card-price { font-size: 15px; }
+  .card-price-sub { font-size: 10px; }
+  .card-desc { display: none; } /* ocultar descripción en mobile */
+  .card-cat-badge { font-size: 9px; padding: 2px 6px; }
+  .card-add-mini { width: 26px; height: 26px; font-size: 16px; }
+
+  /* ── Ofertas de la semana ── */
+  .ofertas-section { padding: 14px 8px; }
+  .ofertas-grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 8px;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .ofertas-grid::-webkit-scrollbar { display: none; }
+  .oferta-card {
+    min-width: 140px;
+    max-width: 140px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+  .oferta-img { height: 110px; }
+  .oferta-nombre { font-size: 11px; }
+  .oferta-precio-final { font-size: 13px; }
+  .oferta-precio-original { font-size: 10px; }
+  .badge-descuento { font-size: 10px; padding: 2px 6px; }
+
+  /* ── Productos destacados ── */
+  .featured-section { padding: 14px 8px; }
+  .featured-title { font-size: 14px; }
+
+  /* ── Carrito drawer ── */
+  .cart-drawer { width: 100%; max-width: 100%; border-radius: 20px 20px 0 0; bottom: 0; top: auto; height: 85vh; }
+
+  /* ── Checkout ── */
+  .checkout-wrap { padding: 12px; }
+  .checkout-box { padding: 16px; border-radius: 16px; }
+
+  /* ── Modal producto ── */
+  .product-modal { grid-template-columns: 1fr; max-width: 100%; border-radius: 16px 16px 0 0; }
+  .pm-images { border-radius: 16px 16px 0 0; max-height: 260px; }
+
+  /* ── Admin ── */
   .config-grid, .form-grid { grid-template-columns: 1fr; }
-  .order-card { grid-template-columns: 60px 1fr; }
+  .order-card { grid-template-columns: 50px 1fr; gap: 10px; }
   .order-total, .order-date { grid-column: 2; }
+  .admin-tabs { gap: 2px; }
+  .tab-btn { font-size: 11px; padding: 8px 8px; }
 }
 
 /* ══════════════════════════════════════
