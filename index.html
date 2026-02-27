@@ -2330,9 +2330,23 @@ function exportarHTML() {
 // ════════════════════════════════════════
 // AUTH
 // ════════════════════════════════════════
-function doLogin() {
+async function hashPass(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function doLogin() {
   const pass = document.getElementById('loginPass').value;
-  if(pass === data.config.password) {
+  const hashed = await hashPass(pass);
+  const stored = data.config.password;
+  // Soporte legacy: si la contraseña guardada tiene menos de 60 chars, es texto plano (primera vez)
+  const valid = stored.length >= 60 ? hashed === stored : pass === stored;
+  if(valid) {
+    // Si era texto plano, migrar a hash ahora
+    if(stored.length < 60) {
+      data.config.password = hashed;
+      saveData();
+    }
     sessionStorage.setItem('admin_ok', 'true');
     document.getElementById('loginErr').textContent = '';
     showAdmin();
@@ -2366,7 +2380,7 @@ function saveConfig() {
   data.config.name = name;
   data.config.waNumber = wa;
   data.config.heroSub = sub || data.config.heroSub;
-  if(newPass) data.config.password = newPass;
+  if(newPass) { hashPass(newPass).then(h => { data.config.password = h; saveData(); }); }
 
   saveData();
   showToast('✓ Configuración guardada');
@@ -3433,12 +3447,12 @@ function renderDolarUI(d) {
 
 function getMargen(precioUSD) {
   // Margen según precio de costo en USD
-  if (precioUSD >= 60) return 0.35;
-  if (precioUSD >= 50) return 0.45;
-  if (precioUSD >= 30) return 0.50;
-  if (precioUSD >= 20) return 0.60;
-  if (precioUSD >= 10) return 0.70;
-  return 1.00; // >= 1 USD → 100% de recargo
+  if (precioUSD >= 60) return 0.30;
+  if (precioUSD >= 50) return 0.35;
+  if (precioUSD >= 30) return 0.45;
+  if (precioUSD >= 20) return 0.45;
+  if (precioUSD >= 10) return 0.50;
+  return 0.60; // < $10 USD → 60% de recargo
 }
 
 function calcPrecioFinal(precioUSD, tipoCambio) {
