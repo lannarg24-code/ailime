@@ -1660,7 +1660,8 @@ body {
     font-size: 12px;
     gap: 4px;
   }
-  .cart-btn span:last-child { display: none; } /* ocultar texto "Carrito" */
+  .cart-label { display: none; } /* ocultar texto "Carrito" en mobile */
+  .cart-count { display: flex !important; } /* siempre mostrar badge número */
   .dolar-badge { display: none; } /* ocultar badge dólar en mobile */
 
   /* ── Hero ── */
@@ -1875,7 +1876,7 @@ if (window.location.search.indexOf('admin') !== -1) {
     </div>
     <div class="header-actions">
       <button class="cart-btn" onclick="openCart()">
-        🛒 Carrito
+        🛒 <span class="cart-label">Carrito</span>
         <span class="cart-count" id="cartCount">0</span>
       </button>
       </div>
